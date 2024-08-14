@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Montserrat:wght@100;400;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Montserrat", sans-serif;
+  background-color: rgb(235, 244, 252);
+  box-sizing: border-box;
+}
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 3px;
+}
+.scroll-bar::-webkit-scrollbar-track {
+  background: rgb(235, 244, 252);
+}
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #8b8b8b;
+  border-radius: 10px;
+  display: none;
+  transition: 0.5 ease-in-out;
+}
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: #8b8b8b;
+  display: block;
+}
+.admin-dashboard-options {
+  @apply w-full transition-all hover:text-blue-500 border-blue-500 hover:border-l-4 py-1;
+}
+.admin-user-form-button {
+  @apply text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+}
