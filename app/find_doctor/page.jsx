@@ -4,12 +4,8 @@ import "@/styles/globals.css";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
-import {
-  redirect,
-  useSearchParams,
-  useRouter,
-  usePathname,
-} from "next/navigation";
+import { useRouter } from "next/navigation";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 
 export default function FindDoctor() {
   const router = useRouter();
@@ -17,6 +13,7 @@ export default function FindDoctor() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRes, setFilteredRes] = useState([]);
   const [hidden, setHidden] = useState(true);
+  const [bookId, setBookId] = useState("id1");
   const parentRef = useRef(null);
   const handleHiddenComponent = () => {
     setHidden(!hidden);
@@ -44,8 +41,8 @@ export default function FindDoctor() {
       console.log(error);
     }
   };
-  console.log(filteredRes);
-  if (!session) redirect("/");
+  const handleBookId = () => {};
+  // if (!session) redirect("/");
   return (
     <div>
       <div>
@@ -81,7 +78,7 @@ export default function FindDoctor() {
           <div className="doctor-card-list">
             {filteredRes && filteredRes.length > 0 ? (
               filteredRes.map((user) => (
-                <div className="doctor-card border m-5 p-5">
+                <div className="doctor-card m-5 p-5 shadow-xl rounded-2xl">
                   <div className="flex justify-between">
                     <div className="flex flex-col justify-between">
                       <div className="flex mb-5 gap-2">
@@ -92,7 +89,15 @@ export default function FindDoctor() {
                           height={50}
                         />
                         <div>
-                          <h3>{user.creator.username}</h3>
+                          <div className="flex gap-10">
+                            <h3>{user.creator.username}</h3>
+                            <div className="flex gap-2">
+                              <p>(</p>
+                              <p>Report</p>
+                              <ReportProblemIcon className="w-6 h-6 text-yellow-500" />
+                              <p>)</p>
+                            </div>
+                          </div>
                           <p>{user.creator.email}</p>
                         </div>
                       </div>
@@ -123,9 +128,17 @@ export default function FindDoctor() {
       <div
         className={`${
           hidden ? "hidden" : "block"
-        } border rounded-lg absolute w-72 h-48 top-1/4 left-1/4 shadow-2xl`}
+        } p-4 rounded-xl absolute w-1/2 top-1/4 left-1/4 shadow-2xl`}
       >
-        Book Appointment
+        <h1 className="font-semibold text-xl">Book Appointment</h1>
+        <div className="flex justify-around mt-3">
+          <button className="border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white">
+            Booking
+          </button>
+          <button className="border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white">
+            Non-Avaliablity
+          </button>
+        </div>
       </div>
     </div>
   );
