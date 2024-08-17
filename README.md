@@ -16,7 +16,7 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
 
 - **Frontend**: 
   - HTML, CSS, JavaScript
-  - React.js for building the user interface
+  - Next.js for building the user interface
 - **Backend**: 
   - Node.js with Express.js for handling server-side logic
   - MongoDB for database management
