@@ -5,6 +5,7 @@ import "@/styles/globals.css"
 import Footer from "@/components/Footer";
 import { useSession } from "next-auth/react"
 import { useState, useEffect} from "react"
+import Loader from "@/components/Loader";
 
 export default function Home() {
   const { status } = useSession()
@@ -15,7 +16,9 @@ export default function Home() {
   }, [status])
   if(loading) {
     return (
-      <p className="text-center pt-[330px]">Loading...</p>
+      <div className="flex w-full">
+        <Loader className="mx-auto" />
+      </div>
     )
   }
   return (

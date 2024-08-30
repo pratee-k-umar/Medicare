@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 // import DoctorBlog from "@/components/DoctorBlog";
 import UserProfile from "@/components/UserProfile";
 import DocInfo from "@/components/DocInfo";
+import Loader from "@/components/Loader";
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -140,7 +141,11 @@ export default function Profile() {
   };
   if (!session) router.push("/");
   if (status === "loading") {
-    return <p className="text-center pt-[330px]">Loading...</p>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    )
   }
   return (
     <div>

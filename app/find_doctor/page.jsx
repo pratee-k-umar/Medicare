@@ -15,19 +15,38 @@ export default function FindDoctor() {
   const [hidden, setHidden] = useState(true);
   const [bookId, setBookId] = useState("id1");
   const parentRef = useRef(null);
-  const handleHiddenComponent = () => {
+  const handleHiddenComponent = (docId) => {
+    setSelectedDocId(docId);
     setHidden(!hidden);
   };
+  const [selectedDocId, setSelectedDocId] = useState("");
+  const [docOffDays, setDocOffDays] = useState([]);
+  const [bookData, setBookData] = useState({
+    date: "",
+    shift: "",
+    time: "",
+  });
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (parentRef.current && !parentRef.current.contains(event.target))
+  //       setHidden(true);
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [parentRef]);
+  const [options, setOptions] = useState([]);
+  const morningTiming = ["10:00-11:00", "11:00-12:00", "12:00-13:00"];
+  const eveningTiming = ["15:00-16:00", "16:00-17:00", "17:00-18:00"];
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (parentRef.current && !parentRef.current.contains(event.target))
-        setHidden(true);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [parentRef]);
+    if (bookData.shift === "Morning") setOptions(morningTiming);
+    else if (bookData.shift === "Evening") setOptions(eveningTiming);
+    else setOptions([]);
+  }, [bookData.shift]);
+  const handleShiftChange = (e) => {
+    setBookData({ ...bookData, shift: e.target.value });
+  };
   const handleSearch = async (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
@@ -41,7 +60,18 @@ export default function FindDoctor() {
       console.log(error);
     }
   };
-  const handleBookId = () => {};
+  useEffect(() => {
+    const fetchOffDays = async () => {
+      try {
+        const res = await fetch(`api/avaliablity/get/${selectedDocId}`);
+        const data = await res.json();
+        setDocOffDays(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchOffDays();
+  }, [selectedDocId]);
   // if (!session) redirect("/");
   return (
     <div>
@@ -102,7 +132,7 @@ export default function FindDoctor() {
                         </div>
                       </div>
                       <button
-                        onClick={handleHiddenComponent}
+                        onClick={() => handleHiddenComponent(user.creator._id)}
                         className="border rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white"
                         data-modal-target="default-modal"
                         data-modal-toggle="default-modal"
@@ -130,14 +160,127 @@ export default function FindDoctor() {
           hidden ? "hidden" : "block"
         } p-4 rounded-xl absolute w-1/2 top-1/4 left-1/4 shadow-2xl`}
       >
-        <h1 className="font-semibold text-xl">Book Appointment</h1>
+        <h1 className="font-semibold text-2xl text-center">Book Appointment</h1>
         <div className="flex justify-around mt-3">
-          <button className="border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white">
+          <button
+            className={`border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
+              bookId === "id1" ? "bg-blue-500 text-white" : ""
+            }`}
+            onClick={() => setBookId("id1")}
+          >
             Booking
           </button>
-          <button className="border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white">
+          <button
+            className={`border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
+              bookId === "id2" ? "bg-blue-500 text-white" : ""
+            }`}
+            onClick={() => setBookId("id2")}
+          >
             Non-Avaliablity
           </button>
+        </div>
+        <div>
+          <div className={`booking ${bookId === "id1" ? "block" : "hidden"}`}>
+            <h1 className="text-center text-xl font-semibold">
+              Book Appointment
+            </h1>
+            <form
+              action=""
+              className="mt-5 mx-48 flex flex-col gap-5"
+              // onSubmit={}
+            >
+              <div className="date flex justify-between">
+                <p>Date:</p>
+                <input
+                  type="date"
+                  // value={avalData.date}
+                  // onChange={(e) =>
+                  //   setAvalData({ ...avalData, date: e.target.value })
+                  // }
+                  min={new Date().toISOString().split("T")[0]}
+                />
+              </div>
+              <div className="shifts flex justify-between">
+                <p>Shifts:</p>
+                <select
+                  name="shifts"
+                  id="shifts"
+                  // value={avalData.shift}
+                  // onChange={handleShiftChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Morning">Morning</option>
+                  <option value="Evening">Evening</option>
+                </select>
+              </div>
+              <div className="timings flex justify-between">
+                <p>Timings:</p>
+                <select
+                  name="timing"
+                  id="timing"
+                  // value={avalData.time}
+                  // onChange={(e) =>
+                  //   setAvalData({ ...avalData, time: e.target.value })
+                  // }
+                >
+                  <option value="">Select</option>
+                  {/* {options &&
+                    options.length > 0 &&
+                    options.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))} */}
+                </select>
+              </div>
+              {/* <button className="border px-4 py-2 rounded-full border-blue-500 text-blue-500 transition-all hover:bg-blue-500 hover:text-white flex mx-auto">
+                {submitting ? "Updating..." : "Update"}
+              </button> */}
+            </form>
+          </div>
+          <div
+            className={`non-avaliable ${
+              bookId === "id2" ? "block" : "hidden"
+            } mt-5`}
+          >
+            <h1 className="text-center text-xl font-extrabold">
+              Non Avaliable Days
+            </h1>
+            <p className="text-lg text-center mx-5 mt-2">
+              These are the days when the doctor is not avaliable. You may book
+              appointment other time.
+            </p>
+            <table className="mt-5 w-full text-center rtl:text-right rounded-xl shadow-lg p-5">
+              <thead className="text-gray-500 m-2">
+                <tr className="border-b border-gray-700">
+                  <th>Date</th>
+                  <th>Shift</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm m-3">
+                {docOffDays && docOffDays.length > 0 ? (
+                  docOffDays.map((day) => (
+                    <tr key={day._id}>
+                      <td className="">
+                        <p>{day.date}</p>
+                      </td>
+                      <td>
+                        <p>{day.shift}</p>
+                      </td>
+                      <td>
+                        <p>{day.time}</p>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="3">No off days..!</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

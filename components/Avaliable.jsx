@@ -50,7 +50,7 @@ export default function Avaliable({ data }) {
   };
   useEffect(() => {
     const fetchAvaliabilityData = async () => {
-      const res = await fetch(`/api/avaliablity/${session?.user.id}`);
+      const res = await fetch(`/api/avaliablity/get/${session?.user.id}`);
       const dayData = await res.json();
       setFetchData(dayData);
     };
@@ -58,7 +58,7 @@ export default function Avaliable({ data }) {
   }, [session]);
   const deleteOffDay = async () => {
     try {
-      const res = await fetch(`/api/avaliablity/${fetchData[0]._id}`, {
+      const res = await fetch(`/api/avaliablity/delete/${fetchData[0]._id}`, {
         method: "DELETE",
       });
       if (res.ok) alert("The day is deleted...");
@@ -70,9 +70,11 @@ export default function Avaliable({ data }) {
   useEffect(() => {
     const deleteOffDays = () => {
       const currentDate = new Date();
-      fetchData.forEach((date) => {
-        if (date < currentDate) deleteOffDay(fetchData[0]._id);
-      });
+      if (Array.isArray(fetchData) && fetchData.length > 0) {
+        fetchData.forEach((date) => {
+          if (date < currentDate) deleteOffDay(fetchData[0]._id);
+        });
+      }
     };
     deleteOffDays();
   }, [fetchData]);
@@ -96,14 +98,13 @@ export default function Avaliable({ data }) {
           }`}
           onClick={() => setId("2")}
         >
-          Off Days
+          Your Off Days
         </button>
       </div>
       <div className="mt-5">
         <div className={id === "1" ? "block" : "hidden"}>
           <p className="text-lg font-semibold">
-            Check the days with shift and timing in the calendar when you are
-            unavailable.
+            Check the days with shift and timing in the calendar when you are unavaliable.
           </p>
           <form
             action=""
