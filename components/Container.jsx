@@ -11,6 +11,9 @@ import Footer from "./Footer";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Blogs from "./Blogs";
+import Doc1 from "@/public/images/doc1.png";
+import Doc2 from "@/public/images/doc2.png";
+import Doc3 from "@/public/images/doc3.png";
 
 export default function Container() {
   const { data: session } = useSession();
@@ -20,24 +23,67 @@ export default function Container() {
     else router.push("/sign_in");
   };
   return (
-    <div className="mt-10 mb-10">
-      <div className="mx-3 sm:w-1/2 sm:mx-16">
-        <p className="text-3xl md:text-5xl lg:text-7xl font-bold">
-          We help patients live a healthy, longer life.
-        </p>
-      </div>
-      <div className="mt-4 mx-3 sm:w-1/2 sm:mx-16 sm:mt-10">
-        <p className="font-semibold text-gray-500">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem
-          repellat ut unde quis non sapiente vero modi maiores repellendus ea
-          tempore est recusandae mollitia dolor voluptate fugit earum voluptates
-          pariatur, facere omnis?
-        </p>
+    <div className="mt-10 ">
+      <div className="flex flex-wrap justify-around">
+        <div className="w-full sm:w-1/2 p-4 m-5">
+          <div className="mx-1">
+            <p className="text-3xl md:text-5xl lg:text-7xl font-bold">
+              We help patients live a healthy, longer life.
+            </p>
+          </div>
+          <div className="mt-10 mx-1">
+            <p className="font-semibold text-gray-500">
+              Medicine is not only a science; it is also an art. It does not
+              consist of compounding pills and plasters; it deals with the very
+              processes of life, which must be understood before they may be
+              guided. – Paracelsus<br/> Your health is just a click away. Book
+              your appointments online and take the first step towards a
+              healthier tomorrow.
+            </p>
+          </div>
+        </div>
+        <div className="shapeBackground flex">
+          <Image
+            src={Doc1}
+            className="docImage1 border-8 rounded-3xl border-amber-300 shadow-xl shadow-amber-100"
+            style={{
+              width: "250px",
+              height: "auto",
+              objectFit: "scale-down",
+              marginRight: "-100px",
+              marginTop: "40px",
+              marginBottom: "20px",
+            }}
+          />
+          <Image
+            src={Doc2}
+            className="docImage2"
+            style={{
+              width: "250px",
+              height: "auto",
+              objectFit: "scale-down",
+              marginTop: "150px",
+              backgroundColor: "transparent",
+              zIndex: "2",
+            }}
+          />
+          <Image
+            src={Doc3}
+            className="docImage3 border-8 rounded-3xl border-amber-300 shadow-xl shadow-amber-100"
+            style={{
+              width: "250px",
+              height: "auto",
+              objectFit: "scale-down",
+              marginLeft: "-130px",
+              marginBottom: "40px",
+            }}
+          />
+        </div>
       </div>
       <div className="appoint mt-10 flex sm:w-1/2 sm:mx-16 sm:block">
         <button
           onClick={redirection}
-          className={`mx-auto border border-blue-500  text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all ${
+          className={`mx-auto border border-blue-500 text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all ${
             !session
               ? "hover:bg-blue-300 hover:border-blue-300"
               : "hover:bg-white hover:text-blue-500"
@@ -153,7 +199,6 @@ export default function Container() {
           </button>
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

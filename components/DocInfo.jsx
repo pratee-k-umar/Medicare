@@ -1,6 +1,10 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Avaliable from "./Avaliable";
 
 export default function DocInfo({
+  session,
   activeButton,
   handleClick,
   docInfo,
@@ -11,6 +15,99 @@ export default function DocInfo({
   doctorInfo,
   setDoctorInfo,
 }) {
+  const [userBooking, setUserBooking] = useState([]);
+  const [doctorBooking, setDoctorBooking] = useState([]);
+  const [acceptSubmitting, setAcceptSubmitting] = useState({});
+  const [rejectSubmitting, setRejectSubmitting] = useState({});
+  const [hoveredData, setHoveredData] = useState(null);
+  useEffect(() => {
+    const fetchBooking = async () => {
+      const fetchData = await fetch(`/api/appointments/get/${session.user.id}`);
+      const data = await fetchData.json();
+      setUserBooking(data);
+    };
+    fetchBooking();
+  }, []);
+  const cancelUserBooking = async () => {
+    const isConfirm = confirm("Are you sure you want to cancel..?");
+    if (isConfirm) {
+      try {
+        const deleteAppointment = await fetch(
+          `/api/appointments/delete/${userBooking[0]._id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (deleteAppointment.ok)
+          alert("Your appointment request has been cancelled...");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  useEffect(() => {
+    const fetchDoctorBooking = async () => {
+      const fetchData = await fetch(
+        `/api/appointments/doctor/get/${session.user.id}`
+      );
+      const data = await fetchData.json();
+      setDoctorBooking(data);
+    };
+    fetchDoctorBooking();
+  }, [session]);
+  const acceptDoctorBooking = async (id) => {
+    setAcceptSubmitting((prevState) => ({
+      ...prevState,
+      [id]: true,
+    }));
+    try {
+      const accept = await fetch(
+        `/api/appointments/doctor/patch/${doctorBooking[0]._id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            status: "approved"
+          }),
+        }
+      );
+      if (accept.ok) alert("The appointment has been accepted...");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setAcceptSubmitting((prevState) => ({
+        ...prevState,
+        [id]: false,
+      }));
+    }
+  };
+  const cancelDoctorBooking = async (id) => {
+    setRejectSubmitting((prevState) => ({
+      ...prevState,
+      [id]: true,
+    }));
+    try {
+      const deleteAppointment = await fetch(
+        `/api/appointments/delete/${doctorBooking[0]._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (deleteAppointment.ok) alert("You rejected the appointment");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRejectSubmitting((prevState) => ({
+        ...prevState,
+        [id]: false,
+      }));
+    }
+  };
+  const handleMouseEnter = (id) => {
+    setHoveredData(id);
+  };
+  const handleMouseLeave = () => {
+    setHoveredData(null);
+  };
   return (
     <div className="extra mt-8 w-full">
       <div className="bookings flex justify-around lg:gap-4 lg:justify-start">
@@ -59,14 +156,126 @@ export default function DocInfo({
             activeButton === "button1" ? "" : "hidden"
           }`}
         >
-          <div>Bookings</div>
+          <div className="">
+            <h1 className="text-center text-xl font-extrabold">
+              Your bookings
+            </h1>
+            <table className="mt-5 w-full text-center rtl:text-right rounded-xl shadow-lg p-5">
+              <thead className="text-gray-500 m-2">
+                <tr className="border-b border-gray-700">
+                  <th>Date</th>
+                  <th>Shift</th>
+                  <th>Time</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              {docInfo.isDoctorApproved === "accepted" ? (
+                <tbody className="text-sm">
+                  {doctorBooking && doctorBooking.length > 0 ? (
+                    doctorBooking.map((day) => (
+                      <tr key={day._id} className="border-b-4 pb-2">
+                        <td>
+                          <p>{day.date}</p>
+                        </td>
+                        <td>
+                          <p>{day.shift}</p>
+                        </td>
+                        <td>
+                          <p>{day.time}</p>
+                        </td>
+                        <td className="flex flex-col gap-1">
+                          <button
+                            disabled={day.status === "approved"}
+                            className={`border text-[13px] px-1 rounded-full border-green-500 text-green-500 transition-all ${
+                              day.status === "approved" ? "hover:bg-green-200" : "hover:text-white hover:bg-green-500"
+                            }`}
+                            onClick={() => acceptDoctorBooking(day._id)}
+                          >
+                            {acceptSubmitting[day._id]
+                              ? "Accepting..."
+                              : "Accept"}
+                          </button>
+                          <button
+                            className={`border text-[13px] px-1 rounded-full border-red-500 text-red-500 transition-all hover:text-white hover:bg-red-500 ${day.status === "approved" ? "hidden" : "block"}`}
+                            onClick={() => cancelDoctorBooking(day._id)}
+                          >
+                            {rejectSubmitting[day._id]
+                              ? "Rejecting..."
+                              : "Reject"}
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3">No bookings right now..!</td>
+                    </tr>
+                  )}
+                </tbody>
+              ) : (
+                <tbody className="text-sm m-3">
+                  {userBooking && userBooking.length > 0 ? (
+                    userBooking.map((day) => (
+                      <tr
+                        key={day._id}
+                        onMouseEnter={() => handleMouseEnter(day._id)}
+                        onMouseLeave={handleMouseLeave}
+                        className={`p-4 relative ${
+                          day.status === "pending"
+                            ? "text-red-500"
+                            : "text-green-500"
+                        }`}
+                      >
+                        <td className="">
+                          <p>{day.date}</p>
+                          {hoveredData === day._id && (
+                            <div
+                              className="absolute bg-black text-white text-xs p-1 rounded"
+                              style={{
+                                top: "7px",
+                                right: "-110px",
+                                transform: "translateX(-50%)",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {day.status === "pending"
+                                ? "Pending"
+                                : "Accepted"}
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <p>{day.shift}</p>
+                        </td>
+                        <td>
+                          <p>{day.time}</p>
+                        </td>
+                        <td>
+                          <button
+                            className="border px-3 py-2 rounded-full border-red-500 text-red-500 transition-all hover:text-white hover:bg-red-500"
+                            onClick={cancelUserBooking}
+                          >
+                            Cancel
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3">No bookings right now..! Stay Safe</td>
+                    </tr>
+                  )}
+                </tbody>
+              )}
+            </table>
+          </div>
         </div>
         <div
           className={`bookings mt-5 ${
             activeButton === "button2" ? "" : "hidden"
           }`}
         >
-          <Avaliable data={docInfo.userId}/>
+          <Avaliable data={docInfo.userId} />
         </div>
         <div
           className={`settings mx-10 sm:mx-20 lg:ml-0 lg:mr-0 mt-5 ${

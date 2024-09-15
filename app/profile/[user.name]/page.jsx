@@ -66,15 +66,17 @@ export default function Profile() {
       const res = await fetch(`/api/doctor/${session?.user.id}/info`);
       const data = await res.json();
       if (!data) console.log("No data found..!");
-      setDocInfo({
-        userId: data[0]._id,
-        isDoctorApproved: data[0].isDoctorApproved,
-        location: data[0].location,
-        specilization: data[0].specilization,
-        qualification: data[0].qualification,
-        experience: data[0].experience,
-        fees: data[0].fees,
-      });
+      if (data && data.length > 0) {
+        setDocInfo({
+          userId: data[0]._id,
+          isDoctorApproved: data[0].isDoctorApproved,
+          location: data[0].location,
+          specilization: data[0].specilization,
+          qualification: data[0].qualification,
+          experience: data[0].experience,
+          fees: data[0].fees,
+        });
+      }
     };
     if (session?.user.id) info();
   }, [session]);
@@ -142,7 +144,7 @@ export default function Profile() {
   if (!session) router.push("/");
   if (status === "loading") {
     return (
-      <div>
+      <div className="flex flex-row justify-center items-center min-h-screen w-[100hw]">
         <Loader />
       </div>
     )
@@ -171,6 +173,7 @@ export default function Profile() {
           docInfo={docInfo}
         />
         <DocInfo
+          session={session}
           activeButton={activeButton}
           handleClick={handleClick}
           docInfo={docInfo}

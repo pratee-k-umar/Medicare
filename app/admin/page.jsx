@@ -14,6 +14,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [activeButton, setActiveButton] = useState("button1");
   const [doctorForm, setDoctorForm] = useState([]);
+  const [doctorReport, setDoctorReport] = useState([])
   const [users, setUsers] = useState([]);
   const [contact, setContacts] = useState([]);
   const handleClick = (buttonId) => {
@@ -32,6 +33,16 @@ export default function Admin() {
     fetchPendingDoctors();
   }, [session]);
   useEffect(() => {
+    const fetchReports = async () => {
+      const res = await fetch("/api/administration/notify/reports/get");
+      const data = await res.json()
+      setDoctorReport(data)
+    }
+    fetchReports()
+  }, [])
+  console.log(doctorReport)
+  const combinedData = [...doctorForm, ...doctorReport]
+  useEffect(() => {
     const fetchUsers = async () => {
       const res = await fetch(`/api/administration/users`);
       const data = await res.json();
@@ -46,8 +57,8 @@ export default function Admin() {
       setContacts(data);
     };
     fetchContact();
-  }, [session]);
-  if(!session) redirect('/')
+  }, []);
+  // if(!session) redirect('/')
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -127,7 +138,7 @@ export default function Admin() {
         >
           <h1 className="text-4xl font-semibold">Notifications</h1>
           <div className="list mt-5">
-            <Notification data={doctorForm} />
+            <Notification data={combinedData} />
           </div>
         </div>
         <div

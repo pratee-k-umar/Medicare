@@ -14,13 +14,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-screen`}>
+      <body className={`${inter.className} flex flex-col  min-h-screen`}>
         <Provider>
           <main className='flex-grow'>
             <Nav className="z-1" />
             {children}
-            {/* <Footer /> */}
           </main>
+          <Footer />
         </Provider>
       </body>
     </html>

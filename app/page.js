@@ -16,8 +16,8 @@ export default function Home() {
   }, [status])
   if(loading) {
     return (
-      <div className="flex w-full">
-        <Loader className="mx-auto" />
+      <div className="flex flex-row justify-center items-center min-h-screen w-[100hw]">
+        <Loader />
       </div>
     )
   }

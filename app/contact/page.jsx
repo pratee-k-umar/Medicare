@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Contact() {
   const { data: session } = useSession()
@@ -47,6 +48,7 @@ export default function Contact() {
   const eventHandler = (event) => {
     if (event.key === "Enter") handleContactInfo();
   };
+  if(!session) redirect("/")
   return (
     <div>
       <div className="sm:mx-20 lg:w-2/3 xl:w-1/2 xl:mx-auto">

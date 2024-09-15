@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 export default function Footer() {
   const router = useRouter()
   return (
-    <div className={`${router.pathname === "/" ? "relative" : "absolute"} bottom-0 w-full`}>
+    <div className={`${router.pathname === "/" ? "absolute" : "relative"} w-full z-0`}>
       <div
-        className="border w-full mt-10"
+        className="w-full mt-10"
       >
         <div className="about text-center">
           <Link href="/" className="logo text-2xl font-extrabold">
