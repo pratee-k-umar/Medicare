@@ -26,7 +26,7 @@ const handler = NextAuth({
       try {
         await connectToDB()
         let userRole = "user"
-        if(profile.email === "prateek0426@gmail.com") userRole = "admin"
+        if(profile.email === process.env.ADMIN_EMAIL) userRole = "admin"
         const userExists = await User.findOne({
           email: profile.email
         })
