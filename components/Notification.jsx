@@ -61,9 +61,9 @@ export default function Notification({ data }) {
                   scope="row"
                   className="px-6 py-4 font-medium whitespace-nowrap"
                 >
-                  {user.creator.username}
+                  {user?.creator?.username}
                 </th>
-                <td className="px-6 py-4">{user.creator.email}</td>
+                <td className="px-6 py-4">{user?.creator?.email}</td>
                 <td className="px-6 py-4">
                   <p>Requesting for doctor's position...</p>
                   <div className="detail">

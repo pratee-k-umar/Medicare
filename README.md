@@ -2,6 +2,8 @@
 
 ## Overview
 
+![Home page](./public/readme/home.png)
+
 The Medicare Web App is a platform designed to connect patients with doctors through a seamless, user-friendly interface. It allows users to book appointments and have  consultations with doctors from various specialties, providing a convenient and efficient way to access healthcare.
 
 ## Features
@@ -11,6 +13,43 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
 - **Appointment Booking**: Users can easily book appointments with available doctors.
 - **Appointment Management**: Both patients and doctors can view and manage their upcoming appointments.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Screenshots
+
+**Doctor Search**
+
+![Doctor Search](./public/readme/doctor-search.png)
+
+**Admin**
+
+*Admin Dashboard*
+![Admin Dashboard](./public/readme/admin-dashboard.png)
+
+*Admin Notifications*
+![Admin Notifications](./public/readme/admin-notification.png)
+
+*Admin Control*
+![Admin Control](./public/readme/admin-control.png)
+
+*Admin Messages*
+![Admin Messages](./public/readme/admin-messages.png)
+
+**User**
+
+*User Profile*
+![User Profile](./public/readme/user-profile.png)
+
+**Doctor**
+
+*Doctor Profile*
+![Doctor Profile](./public/readme/doctor-profile.png)
+
+*Doctor Avaliability*
+![Doctor set Off Days](./public/readme/doctor-avaliability1.png)
+![Doctor get Off Days](./public/readme/doctor-avaliability2.png)
+
+*Doctor Settings*
+![Doctor Settings](./public/readme/doctor-settings.png)
 
 ## Technologies Used
 
@@ -45,7 +84,7 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
     ```
 4. **Set Up Environment Variables:**
     - Create a `.env` file in the root directory.
-    - Add your MongoDB connection string, JWT secret, and any other required environment variables.
+    - Add your MongoDB connection string, NEXTAUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET, NEXTAUTH_URL, and any other required environment variables.
 
 5. **Start the Development Server:**
     ```bash
