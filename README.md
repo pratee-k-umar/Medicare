@@ -105,10 +105,6 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
 
 We welcome contributions! Please fork the repository and create a pull request with your changes. For major changes, please open an issue to discuss what you would like to change.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## Contact
 
-For any questions or suggestions, feel free to contact [Your Name] at [prateek0426@gmail.com].
+For any questions or suggestions, feel free to contact Me at [prateek0426@gmail.com].
