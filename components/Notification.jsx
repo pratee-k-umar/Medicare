@@ -26,6 +26,7 @@ export default function Notification({ data }) {
           method: "DELETE"
         })
         if(res.ok) alert("Request rejected..!")
+          router.refresh();
       }
       catch(error) {
         console.log(error)
