@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { redirect } from 'next/navigation';
 import { useState, useEffect, useRef } from "react";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import DatePicker from "react-datepicker";
