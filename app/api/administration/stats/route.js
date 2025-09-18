@@ -3,7 +3,7 @@ import User from "@/models/user";
 import Doctor from "@/models/doctor";
 import Appointment from "@/models/appointment";
 
-export const GET = async () => {
+export const GET = async (req, res) => {
   const { searchParams } = new URL(req.url);
   const month = searchParams.get('month');
   const year = searchParams.get('year');
