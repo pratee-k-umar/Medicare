@@ -8,7 +8,7 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
 
 ## Features
 
-- **User Registration and Authentication**: Secure sign-up and login system for both doctors and patients.
+- **User Authentication**: Secure sign-up and login using Google Authentication for both doctors and patients.
 - **Doctor Profiles**: Detailed profiles for doctors, including their specialties, experience, and availability.
 - **Appointment Booking**: Users can easily book appointments with available doctors.
 - **Appointment Management**: Both patients and doctors can view and manage their upcoming appointments.
@@ -57,11 +57,10 @@ The Medicare Web App is a platform designed to connect patients with doctors thr
   - HTML, CSS, JavaScript
   - Next.js for building the user interface
 - **Backend**: 
-  - Node.js with Express.js for handling server-side logic
+  - Next.js API Routes for server-side logic
   - MongoDB for database management
 - **Authentication**: 
-  - JWT (JSON Web Tokens) for secure authentication
-  - NextJs Google Authentication
+  - NextAuth.js for handling Google Authentication
 
 ## Installation
 
