@@ -252,15 +252,15 @@ export default function FindDoctor() {
         <h1 className="font-semibold text-2xl text-center">Book Appointment</h1>
         <div className="flex justify-around mt-3">
           <button
-            className={`border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
+            className={`border px-4 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
               bookId === "id1" ? "bg-blue-500 text-white" : ""
             }`}
             onClick={() => setBookId("id1")}
           >
-            Booking
           </button>
+            Booking
           <button
-            className={`border px-4 py-1 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
+            className={`border px-4 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
               bookId === "id2" ? "bg-blue-500 text-white" : ""
             }`}
             onClick={() => setBookId("id2")}
