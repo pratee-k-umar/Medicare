@@ -1,6 +1,5 @@
 "use client";
 
-import "@/styles/globals.css";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";

@@ -1,6 +1,5 @@
 "use client";
 
-import "@/styles/globals.css";
 import Image from "next/image";
 import Icon1 from "@/public/images/icon01.png";
 import Icon2 from "@/public/images/icon02.png";
