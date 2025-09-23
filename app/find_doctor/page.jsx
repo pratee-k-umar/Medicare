@@ -117,7 +117,7 @@ export default function FindDoctor() {
         alert(
           "Your appointment request has been submitted. Please wait for the request approval."
         );
-        setHiddenBook(!hiddenBook);
+        setHiddenBook(true);
       }
     } catch (error) {
       console.log(error);
@@ -142,7 +142,7 @@ export default function FindDoctor() {
         alert(
           "Thank you for submitting the report. We'll look into the matter."
         );
-        setHiddenReport(!hiddenReport);
+        setHiddenReport(true);
       }
     } catch (error) {
       console.log(error);
@@ -257,8 +257,8 @@ export default function FindDoctor() {
             }`}
             onClick={() => setBookId("id1")}
           >
-          </button>
             Booking
+          </button>
           <button
             className={`border px-4 rounded-full px-auto py-2 text-blue-500 border-blue-500 transition-all hover:bg-blue-500 hover:text-white ${
               bookId === "id2" ? "bg-blue-500 text-white" : ""
@@ -333,7 +333,7 @@ export default function FindDoctor() {
               <div className="flex justify-between">
                 <button
                   className="border px-4 py-2 rounded-full border-red-500 text-red-500 transition-all hover:bg-red-500 hover:text-white"
-                  onClick={() => setHiddenBook(!hiddenBook)}
+                  onClick={() => setHiddenBook(true)}
                 >
                   Cancel
                 </button>
@@ -424,7 +424,7 @@ export default function FindDoctor() {
           <div className="mt-4 flex justify-around">
             <button
               className="border px-4 py-2 rounded-full border-red-500 text-red-500 transition-all hover:bg-red-500 hover:text-white"
-              onClick={() => setHiddenReport(!hiddenReport)}
+              onClick={() => setHiddenReport(true)}
             >
               Cancel
             </button>
