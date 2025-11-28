@@ -2,17 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getProviders, signIn, useSession, signOut } from "next-auth/react";
+import { getProviders, useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import AuthButton from "./AuthButton";
 
 export default function Nav() {
   const [show, setShow] = useState(false);
-  const [providers, setProviders] = useState(null);
   const { data: session, status } = useSession();
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(true);
@@ -27,13 +27,6 @@ export default function Nav() {
       document.body.style.overflow = 'auto';
     };
   }, [show]);
-  useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders();
-      setProviders(response);
-    };
-    setUpProviders();
-  }, []);
   useEffect(() => {
     const fetchRole = async () => {
       const res = await fetch(`/api/user/${session?.user.id}/role`);
@@ -90,7 +83,7 @@ export default function Nav() {
       ) : (
         <></>
       )}
-      {session?.user ? (
+      {session?.user && (
         <div className="profile_image rounded-full">
           {pathname === "/admin" ? (
             <button
@@ -179,24 +172,6 @@ export default function Nav() {
               </div>
             </>
           )}
-        </div>
-      ) : (
-        <div>
-          <div className="register">
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  className="font-bold text-blue-500 border border-blue-500 transition-all hover:bg-blue-500 hover:text-white py-1 px-4 rounded-full shadow-xl flex mx-auto"
-                  key={provider.name}
-                  onClick={() => {
-                    signIn(provider.id);
-                  }}
-                >
-                  Sign In
-                </button>
-              ))}
-          </div>
         </div>
       )}
     </div>

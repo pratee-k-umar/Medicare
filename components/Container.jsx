@@ -5,6 +5,7 @@ import Icon1 from "@/public/images/icon01.png";
 import Icon2 from "@/public/images/icon02.png";
 import Icon3 from "@/public/images/icon03.png";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Footer from "./Footer";
 import { useSession } from "next-auth/react";
@@ -13,16 +14,13 @@ import Blogs from "./Blogs";
 import Doc1 from "@/public/images/doc1.png";
 import Doc2 from "@/public/images/doc2.png";
 import Doc3 from "@/public/images/doc3.png";
+import AuthButton from "./AuthButton";
 
 export default function Container() {
   const { data: session } = useSession();
   const router = useRouter();
-  const redirection = () => {
-    if (session?.user) router.push("/find_doctor");
-    else router.push("/sign_in");
-  };
   return (
-    <div className="mt-10 ">
+    <div className="mt-10">
       <div className="flex flex-wrap justify-around">
         <div className="w-full sm:w-1/2 p-4 m-5">
           <div className="mx-1">
@@ -35,9 +33,9 @@ export default function Container() {
               Medicine is not only a science; it is also an art. It does not
               consist of compounding pills and plasters; it deals with the very
               processes of life, which must be understood before they may be
-              guided. – Paracelsus<br/> Your health is just a click away. Book
-              your appointments online and take the first step towards a
-              healthier tomorrow.
+              guided. – Paracelsus
+              <br /> Your health is just a click away. Book your appointments
+              online and take the first step towards a healthier tomorrow.
             </p>
           </div>
         </div>
@@ -79,18 +77,17 @@ export default function Container() {
           />
         </div>
       </div>
-      <div className="appoint mt-10 flex sm:w-1/2 sm:mx-16 sm:block">
-        <button
-          onClick={redirection}
-          className={`mx-auto border border-blue-500 text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all ${
-            !session
-              ? "hover:bg-blue-300 hover:border-blue-300"
-              : "hover:bg-white hover:text-blue-500"
-          } shadow-xl`}
-          disabled={!session}
-        >
-          Book an Appointment
-        </button>
+      <div className="appoint flex sm:w-1/2 sm:mx-16 sm:block">
+        {session ? (
+          <button
+            onClick={() => router.push("/find_doctor")}
+            className={`mx-auto border border-blue-500 text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all hover:bg-white hover:text-blue-500 shadow-xl`}
+          >
+            Book an Appointment
+          </button>
+        ) : (
+          <AuthButton />
+        )}
       </div>
       <div className="sm:flex sm:mx-16 sm:mt-10">
         <div className="ml-3 mt-6">
@@ -185,17 +182,16 @@ export default function Container() {
           </p>
         </div>
         <div className="appoint mt-10 flex md:w-1/2 md:mx-28 md:block">
-          <button
-            onClick={redirection}
-            className={`mx-auto border border-blue-500  text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all ${
-              !session
-                ? "hover:bg-blue-300 hover:border-blue-300"
-                : "hover:bg-white hover:text-blue-500"
-            } shadow-xl`}
-            disabled={!session}
-          >
-            Book an Appointment
-          </button>
+          {session ? (
+            <button
+              onClick={() => router.push("/find_doctor")}
+              className={`mx-auto border border-blue-500 text-white font-semibold text-xl py-3 px-4 rounded-full bg-blue-500 transition-all hover:bg-white hover:text-blue-500 shadow-xl`}
+            >
+              Book an Appointment
+            </button>
+          ) : (
+            <AuthButton />
+          )}
         </div>
       </div>
     </div>
