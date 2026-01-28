@@ -1,30 +1,15 @@
 "use client";
 
 import Container from "@/components/Container";
-import "@/styles/globals.css";
-import Footer from "@/components/Footer";
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
-import Loader from "@/components/Loader";
 
 export default function Home() {
-  const { status } = useSession();
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    if (status === "loading") setLoading(true);
-    else setLoading(false);
-  }, [status]);
-  if (loading) {
+    // Render immediately even while session is loading to avoid blocking first paint.
+    // Components can read session via `useSession()` as needed.
+    useSession();
     return (
-      <div className="flex flex-row justify-center items-center min-h-screen w-[100hw]">
-        <div className="loader"></div>
-      </div>
+        <main className="">
+            <Container />
+        </main>
     );
-  }
-  return (
-    <main className="">
-      <Container />
-      {/* <Footer /> */}
-    </main>
-  );
 }
